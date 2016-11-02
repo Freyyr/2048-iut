@@ -58,10 +58,10 @@ public class Grille{
     public Case randomGenerate(int nbCase){
 	//Crée case 2 ou 4 aléatoirement
 	int number, x = 0, y = 0, i = 1;
-	Random alea = new Random(2);
+	Random alea = new Random();
 	number = alea.nextInt(2); //Genere le nombre de la case (0=2 et 1=4)
 	if(number == 0) number = 2;
-	else number = 4;
+	else if(number == 1) number = 4;
 	int posInMatrix=alea.nextInt(16-nbCase); //16 case(0 a 15)- nbCase dans matrice = position dans matrice
 	y++;
 	while(i < posInMatrix){
