@@ -8,15 +8,32 @@ public class Grille{
 	//Constructeur de début de partie
 	Case case1 = randomGenerate(this.nbCasePleine());
 	matrix[case1.getX()][case1.getY()] = case1;
-	/*Case case2 = randomGenerate(this.nbCasePleine());
-	matrix[case2.getX()][case2.getY()] = case2;*/
+	Case case2 = randomGenerate(this.nbCasePleine());
+	matrix[case2.getX()][case2.getY()] = case2;
     }
 
-
-    /* public void moveLeft(){
-
+    
+    public void moveLeft(){
+	int x, y;
+	for(y = 0; y < 4; y++){
+	    for(x = 0; x < 4; x++){
+		if(x == 0);
+		else if(this.matrix[x-1][y] == null){
+		    while(this.matrix[x-1][y] == null){
+			this.matrix[x-1][y] = this.matrix[x][y];
+			this.matrix[x][y] = null;
+		    }
+		}
+		else if(this.matrix[x][y] == this.matrix[x-1][y]){
+		    this.matrix[x-1][y].setNum(this.matrix[x-1][y].getNum()*2);
+		    this.matrix[x][y] = null;
+		}
+	    }
+	}
+	Case case1 = randomGenerate(this.nbCasePleine());
+	matrix[case1.getX()][case1.getY()] = case1;
     }
-
+    
     public void moveRight(){
 
     }
@@ -27,7 +44,7 @@ public class Grille{
 
     public void moveDown(){
 
-    }*/
+    }
     
     public String toString(){
 	StringBuilder affichage = new StringBuilder();
@@ -62,8 +79,7 @@ public class Grille{
 	number = alea.nextInt(2); //Genere le nombre de la case (0=2 et 1=4)
 	if(number == 0) number = 2;
 	else if(number == 1) number = 4;
-	int posInMatrix=alea.nextInt(16-nbCase); //16 case(0 a 15)- nbCase dans matrice = position dans matrice
-	y++;
+	int posInMatrix = alea.nextInt(16-nbCase); //16 case(0 a 15)- nbCase dans matrice = position dans matrice
 	while(i < posInMatrix){
 	    if(matrix[x][y] == null){
 		i++;
@@ -79,18 +95,12 @@ public class Grille{
 
     public int nbCasePleine(){
 	//Compte le nombre de case pleine, plus complexe mais permet de ne pas avoir a faire une boucle imbriqué, donc plus rapide
-	int i = 1, x = 0, y = 0, nbCase = 0;
-	while(i < 17){
-	    if(matrix[x][y] != null){
-		nbCase++;
+	int x, y, nbCase = 0;
+	for(y = 0; y < 4; y++){
+	    for(x = 0; x < 4; x++){
+		if(this.matrix[x][y] != null) nbCase++;
 	    }
-	    x++;
-	    if(x > 3){
-		y++;
-		x = x%4;
-	    }
-	    i++;
-    	}
+	}
 	return nbCase;
     }
 }
