@@ -7,18 +7,20 @@ public class Grille{
 
     public Grille(){
 	//Constructeur de début de partie
-	Case case1 = randomGenerate(this.nbCasePleine());
+	//Création des deux cases obligatoires en début de partie
+	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
-	Case case2 = randomGenerate(this.nbCasePleine());
+	Case case2 = this.randomGenerate();
 	matrix[case2.getX()][case2.getY()] = case2;
     }
 
     public void partie(){
+	//Lancement d'une partie
 	Scanner sc = new Scanner(System.in); 
 	System.out.println(this.toString());
-	while(! gameWin() && ! gameLost()){
+	while(! gameWin() && ! gameLost()){ //Tant que la partie n'est ni perdu ni gagné on demande au joueur de choisir une action
 	    System.out.println("Appuyez sur z, q, s, d pour bouger la grille");
-	    char commande = sc.next().charAt(0);
+	    char commande = sc.next().charAt(0); //Enregistre le premier char entré par le joueur
 	    if(commande == 'z'){
 		this.moveUp();
 	    }
@@ -38,18 +40,20 @@ public class Grille{
     }
 	
     public void moveLeft(){
+	//L'objectif est de deplacer les cases des chacunes des lignes vers la gauche et de
+	//les fusionner si leurs valeursest la meme
 	int x = 0, y = 0, a, b;
-	for(y = 0; y < 4; y++){
-	    for(x = 0; x < 3; x++){
+	for(y = 0; y < 4; y++){ //On parcourt lignes par lignes 
+	    for(x = 0; x < 3; x++){ //Case par case
 		b = 0;
 		for(a = x ; a < 4; a++){
-		    if(this.matrix[a][y] != null) {
+		    if(this.matrix[a][y] != null) { //On verifie qu'apres la case x(avance au fur et a mesure) il existe bien encore au moins une case non vide
 			b = 1;
 		    }
 		}
-		if(b == 1){
-		    while(this.matrix[x][y] == null){
-			if(x == 0){
+		if(b == 1){ // Si il existe au moins encore une case non vide
+		    while(this.matrix[x][y] == null){ //alors tant que la case x est vide on deplace toutes les cases suivantes vers la gauche (dépend de la case x)
+			if(x == 0){ 
 			    this.matrix[x][y] = this.matrix[x+1][y];
 			    this.matrix[x+1][y] = this.matrix[x+2][y];
 			    this.matrix[x+2][y] = this.matrix[x+3][y];
@@ -67,7 +71,8 @@ public class Grille{
 		    }
 		}
 	    }
-	    for(x = 0; x < 3; x++){
+	    for(x = 0; x < 3; x++){//On s'occupe maintenant de la fusion des cases identiques
+		//la fusion n'est possible ssi on est sur les cases 0 ou 2 et que la case x+1 est non null et que les cases x et x+1 ont la meme valeurs
 		if((x == 0) && (this.matrix[x+1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x+1][y].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x+1][y] = this.matrix[x+2][y];
@@ -80,7 +85,7 @@ public class Grille{
 		}
 	    }
 	}
-	Case case1 = randomGenerate();
+	Case case1 = this.randomGenerate();// On créé une nouvelle case aleatoirement(2 ou 4) a chaque mouvement du joueur
 	matrix[case1.getX()][case1.getY()] = case1;
     }
     
@@ -127,7 +132,7 @@ public class Grille{
 		}
 	    }
 	}
-	Case case1 = randomGenerate();
+	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
     }
 
@@ -174,7 +179,7 @@ public class Grille{
 		}
 	    }
 	}
-	Case case1 = randomGenerate();
+	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
     }
 
@@ -221,27 +226,28 @@ public class Grille{
 		}
 	    }
 	}
-	Case case1 = randomGenerate();
+	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
     }
 
     public boolean gameLost(){
-	//Check si la partie est perdue return 1 si non et 0 si oui
+	//Check si la partie est perdue return true si oui et false si non
 	int nbCaseVide = 0;
-	for(int x = 0; x < 4; x++){
+	for(int x = 0; x < 4; x++){ //Parcourt toutes les cases et compte les nombres de cases vide
 	    for(int y = 0; y < 4; y++){
 		if(this.matrix[x][y] == null) nbCaseVide++;
 	    }
 	}
 	if(nbCaseVide == 0){
-	    System.out.println("Vous avez perdu !");
+	    System.out.println("Vous avez perdu !"); //Si aucune des cases n'est vide alors perdu 
 	    return true;
 	}
 	return false;
     }
 
     public boolean gameWin(){
-	for(int x = 0; x < 4; x++){
+	//Check si la partie est gagné return true si oui et false si non
+	for(int x = 0; x < 4; x++){ // Parcourt toutes les cases a la recherche d'une case de valeur 2048
 	    for(int y = 0; y < 4; y++){
 		if(this.matrix[x][y] != null && this.matrix[x][y].getNum() == 2048) {
 		    System.out.println("Vous avez gagné");
@@ -253,6 +259,7 @@ public class Grille{
     }
     
     public String toString(){
+	//Affichage console de la matrice
 	StringBuilder affichage = new StringBuilder();
 	for(int y = 0; y < 4; y++){
 	    for(int i = 0; i < 17; i++) affichage.append("-");
@@ -300,7 +307,7 @@ public class Grille{
     }
 
     public int nbCasePleine(){
-	//Compte le nombre de case pleine, plus complexe mais permet de ne pas avoir a faire une boucle imbriqué, donc plus rapide
+	//Compte le nombre de case pleine
 	int x, y, nbCase = 0;
 	for(y = 0; y < 4; y++){
 	    for(x = 0; x < 4; x++){
