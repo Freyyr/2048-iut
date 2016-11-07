@@ -7,7 +7,7 @@ public class Grille{
 
     public Grille(){
 	//Constructeur de début de partie
-	//Création des deux cases obligatoires en début de partie
+	//Création des deux cases obligatoires en début de partie 2048 blabla blablabl
 	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
 	Case case2 = this.randomGenerate();
