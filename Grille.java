@@ -3,11 +3,12 @@ import java.util.Scanner;
 
 public class Grille{
 
-    private Case[][] matrix = new Case[4][4];
+    private Case[][] matrix;
 
     public Grille(){
 	//Constructeur de début de partie
 	//Création des deux cases obligatoires en début de partie
+	this.matrix = new Case[4][4];
 	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
 	Case case2 = this.randomGenerate();
@@ -41,14 +42,14 @@ public class Grille{
 	
     public void moveLeft(){
 	//L'objectif est de deplacer les cases des chacunes des lignes vers la gauche et de
-	//les fusionner si leurs valeursest la meme
+	//les fusionner si leurs valeurs est la meme
 	int x = 0, y = 0, a, b;
 	for(y = 0; y < 4; y++){ //On parcourt lignes par lignes 
 	    for(x = 0; x < 3; x++){ //Case par case
 		b = 0;
 		for(a = x ; a < 4; a++){
 		    if(this.matrix[a][y] != null) { //On verifie qu'apres la case x(avance au fur et a mesure) il existe bien encore au moins une case non vide
-			b = 1;
+ 			b = 1;
 		    }
 		}
 		if(b == 1){ // Si il existe au moins encore une case non vide
@@ -78,6 +79,11 @@ public class Grille{
 		    this.matrix[x+1][y] = this.matrix[x+2][y];
 		    this.matrix[x+2][y] = this.matrix[x+3][y];
 		    this.matrix[x+3][y] = null;
+		}
+		else if((x==1) && (this.matrix[x+1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x+1][y].getNum())){
+		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
+		    this.matrix[x+1][y] = this.matrix[x+2][y];
+		    this.matrix[x+2][y] = null;
 		}
 		else if((x == 2) &&  (this.matrix[x+1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x+1][y].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
@@ -126,6 +132,11 @@ public class Grille{
 		    this.matrix[x-2][y] = this.matrix[x-3][y];
 		    this.matrix[x-3][y] = null;
 		}
+		else if((x == 2) && (this.matrix[x-1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x-1][y].getNum())){
+		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
+		    this.matrix[x-1][y] = this.matrix[x-2][y];
+		    this.matrix[x-2][y] = null;
+		}
 		else if((x == 1) &&  (this.matrix[x-1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x-1][y].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x-1][y] = null;
@@ -172,6 +183,11 @@ public class Grille{
 		    this.matrix[x][y+1] = this.matrix[x][y+2];
 		    this.matrix[x][y+2] = this.matrix[x][y+3];
 		    this.matrix[x][y+3] = null;
+		}
+		else if((y == 1) && (this.matrix[x][y+1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y+1].getNum())){
+		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
+		    this.matrix[x][y+1] = this.matrix[x][y+2];
+		    this.matrix[x][y+2] = null;
 		}
 		else if((y == 2) &&  (this.matrix[x][y+1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y+1].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
@@ -220,6 +236,11 @@ public class Grille{
 		    this.matrix[x][y-2] = this.matrix[x][y-3];
 		    this.matrix[x][y-3] = null;
 		}
+		else if((y == 2) && (this.matrix[x][y-1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y-1].getNum())){
+		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
+		    this.matrix[x][y-1] = this.matrix[x][y-2];
+		    this.matrix[x][y-2] = null;
+		}
 		else if((y == 1) &&  (this.matrix[x][y-1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y-1].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x][y-1] = null;
@@ -265,13 +286,12 @@ public class Grille{
 	    for(int i = 0; i < 17; i++) affichage.append("-");
 	    affichage.append("\n");
 	    for(int x = 0; x < 4; x++){
-		
 		if(this.matrix[x][y] == null && x == 3){
 		    affichage.append("|   | ");
 		}
 		else if(this.matrix[x][y] == null){
 		    affichage.append("|   ");
-		}
+		    }
 		else if(x == 3){
 		    affichage.append("| " + this.matrix[x][y].getNum() + " | ");
 		}
@@ -287,22 +307,17 @@ public class Grille{
 
     public Case randomGenerate(){
 	//Crée case 2 ou 4 aléatoirement
-	int number, x = 0, y = 0, i = 1;
+	int number, x, y;
 	Random alea = new Random();
-	number = alea.nextInt(2); //Genere le nombre de la case (0=2 et 1=4)
+	number = alea.nextInt(2);
 	if(number == 0) number = 2;
 	else if(number == 1) number = 4;
-	int posInMatrix = alea.nextInt(16-this.nbCasePleine()); //16 case(0 a 15)- nbCase dans matrice = position dans matrice
-	while(i < posInMatrix){
-	    if(matrix[x][y] == null){
-		i++;
-	    }
-	    x++;
-	    if(x > 3){
-		y++;
-		x = x%4;
-	    }
-    	}
+	do{
+	    x = alea.nextInt(4);
+	    y = alea.nextInt(4);
+	}
+	while(this.matrix[x][y] != null);
+	System.out.println(x + "," + y);
 	return new Case(number, x, y);
     }
 
