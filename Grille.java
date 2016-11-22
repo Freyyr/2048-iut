@@ -287,7 +287,7 @@ public class Grille{
 
     public Case randomGenerate(){
 	//Crée case 2 ou 4 aléatoirement
-	int number, x = 0, y = 0, i = 1;
+	/*int number, x = 0, y = 0, i = 1;
 	Random alea = new Random();
 	number = alea.nextInt(2); //Genere le nombre de la case (0=2 et 1=4)
 	if(number == 0) number = 2;
@@ -303,6 +303,18 @@ public class Grille{
 		x = x%4;
 	    }
     	}
+	return new Case(number, x, y);*/
+
+	int number, x, y;
+	Random alea = new Random();
+	number = alea.nextInt(2);
+	if(number == 0) number = 2;
+	else if(number == 1) number = 4;
+	do{
+	    x = alea.nextInt(16);
+	    y = alea.nextInt(16);
+	}
+	while(this.matrix[x][y] != null);
 	return new Case(number, x, y);
     }
 
