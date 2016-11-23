@@ -19,7 +19,7 @@ public class Grille{
 	//Lancement d'une partie
 	Scanner sc = new Scanner(System.in); 
 	System.out.println(this.toString());
-	while(! gameWin() && ! gameLost()){ //Tant que la partie n'est ni perdu ni gagné on demande au joueur de choisir une action
+	while(! gameWin()){ //Tant que la partie n'est ni perdu ni gagné on demande au joueur de choisir une action
 	    System.out.println("Appuyez sur z, q, s, d pour bouger la grille");
 	    char commande = sc.next().charAt(0); //Enregistre le premier char entré par le joueur
 	    if(commande == 'z'){
@@ -44,6 +44,7 @@ public class Grille{
 	//L'objectif est de deplacer les cases des chacunes des lignes vers la gauche et de
 	//les fusionner si leurs valeurs est la meme
 	int x = 0, y = 0, a, b;
+	boolean actionDone = false;
 	for(y = 0; y < 4; y++){ //On parcourt lignes par lignes 
 	    for(x = 0; x < 3; x++){ //Case par case
 		b = 0;
@@ -59,15 +60,18 @@ public class Grille{
 			    this.matrix[x+1][y] = this.matrix[x+2][y];
 			    this.matrix[x+2][y] = this.matrix[x+3][y];
 			    this.matrix[x+3][y] = null;
+			    actionDone = true;
 			}
 			else if(x == 1){
 			    this.matrix[x][y] = this.matrix[x+1][y];
 			    this.matrix[x+1][y] = this.matrix[x+2][y];
 			    this.matrix[x+2][y] = null;
+			    actionDone = true;
 			}
 			else if(x == 2){
 			    this.matrix[x][y] = this.matrix[x+1][y];
 			    this.matrix[x+1][y] = null;
+			    actionDone = true;
 			}
 		    }
 		}
@@ -79,24 +83,30 @@ public class Grille{
 		    this.matrix[x+1][y] = this.matrix[x+2][y];
 		    this.matrix[x+2][y] = this.matrix[x+3][y];
 		    this.matrix[x+3][y] = null;
+		    actionDone = true;
 		}
 		else if((x==1) && (this.matrix[x+1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x+1][y].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x+1][y] = this.matrix[x+2][y];
 		    this.matrix[x+2][y] = null;
+		    actionDone = true;
 		}
 		else if((x == 2) &&  (this.matrix[x+1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x+1][y].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x+1][y] = null;
+		    actionDone = true;
 		}
 	    }
+	};
+	if(actionDone == true){
+	    Case case1 = this.randomGenerate();// On créé une nouvelle case aleatoirement(2 ou 4) a chaque mouvement du joueur
+	    matrix[case1.getX()][case1.getY()] = case1;
 	}
-	Case case1 = this.randomGenerate();// On créé une nouvelle case aleatoirement(2 ou 4) a chaque mouvement du joueur
-	matrix[case1.getX()][case1.getY()] = case1;
     }
     
     public void moveRight(){
 	int x = 3, y = 0, a, b;
+	boolean actionDone = false;
 	for(y = 0; y < 4; y++){
 	    for(x = 3; x > 0 ; x--){
 		b = 0;
@@ -112,17 +122,21 @@ public class Grille{
 			    this.matrix[x-1][y] = this.matrix[x-2][y];
 			    this.matrix[x-2][y] = this.matrix[x-3][y];
 			    this.matrix[x-3][y] = null;
+			    actionDone = true;
 			}
 			else if(x == 2){
 			    this.matrix[x][y] = this.matrix[x-1][y];
 			    this.matrix[x-1][y] = this.matrix[x-2][y];
 			    this.matrix[x-2][y] = null;
+			    actionDone = true;
 			}
-			else if(x == 3){
+			else if(x == 1){
 			    this.matrix[x][y] = this.matrix[x-1][y];
 			    this.matrix[x-1][y] = null;
+			    actionDone = true;
 			}
 		    }
+		    
 		}
 	    }
 	    for(x = 3; x > 0; x--){
@@ -131,24 +145,30 @@ public class Grille{
 		    this.matrix[x-1][y] = this.matrix[x-2][y];
 		    this.matrix[x-2][y] = this.matrix[x-3][y];
 		    this.matrix[x-3][y] = null;
+		    actionDone = true;
 		}
 		else if((x == 2) && (this.matrix[x-1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x-1][y].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x-1][y] = this.matrix[x-2][y];
 		    this.matrix[x-2][y] = null;
+		    actionDone = true;
 		}
 		else if((x == 1) &&  (this.matrix[x-1][y] != null) && (this.matrix[x][y].getNum() == this.matrix[x-1][y].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x-1][y] = null;
+		    actionDone = true;
 		}
 	    }
 	}
-	Case case1 = this.randomGenerate();
-	matrix[case1.getX()][case1.getY()] = case1;
+	if(actionDone == true){
+	    Case case1 = this.randomGenerate();
+	    matrix[case1.getX()][case1.getY()] = case1;
+	}
     }
 
     public void moveUp(){
 	int x = 0, y = 0, a, b;
+	boolean actionDone = false;
 	for(x = 0; x < 4; x++){
 	    for(y = 0; y < 3; y++){
 		b = 0;
@@ -164,15 +184,18 @@ public class Grille{
 			    this.matrix[x][y+1] = this.matrix[x][y+2];
 			    this.matrix[x][y+2] = this.matrix[x][y+3];
 			    this.matrix[x][y+3] = null;
+			    actionDone = true;
 			}
 			else if(y == 1){
 			    this.matrix[x][y] = this.matrix[x][y+1];
 			    this.matrix[x][y+1] = this.matrix[x][y+2];
 			    this.matrix[x][y+2] = null;
+			    actionDone = true;
 			}
 			else if(y == 2){
 			    this.matrix[x][y] = this.matrix[x][y+1];
 			    this.matrix[x][y+1] = null;
+			    actionDone = true;
 			}
 		    }
 		}
@@ -183,24 +206,30 @@ public class Grille{
 		    this.matrix[x][y+1] = this.matrix[x][y+2];
 		    this.matrix[x][y+2] = this.matrix[x][y+3];
 		    this.matrix[x][y+3] = null;
+		    actionDone = true;
 		}
 		else if((y == 1) && (this.matrix[x][y+1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y+1].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x][y+1] = this.matrix[x][y+2];
 		    this.matrix[x][y+2] = null;
+		    actionDone = true;
 		}
 		else if((y == 2) &&  (this.matrix[x][y+1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y+1].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x][y+1] = null;
+		    actionDone = true;
 		}
 	    }
 	}
-	Case case1 = this.randomGenerate();
-	matrix[case1.getX()][case1.getY()] = case1;
+	if(actionDone == true){
+	    Case case1 = this.randomGenerate();
+	    matrix[case1.getX()][case1.getY()] = case1;
+	}
     }
 
     public void moveDown(){
 	int x = 0, y = 0, a, b;
+	boolean actionDone = false;
 	for(x = 0; x < 4; x++){
 	    for(y = 3; y > 0; y--){
 		b = 0;
@@ -216,15 +245,18 @@ public class Grille{
 			    this.matrix[x][y-1] = this.matrix[x][y-2];
 			    this.matrix[x][y-2] = this.matrix[x][y-3];
 			    this.matrix[x][y-3] = null;
+			    actionDone = true;
 			}
 			else if(y == 2){
 			    this.matrix[x][y] = this.matrix[x][y-1];
 			    this.matrix[x][y-1] = this.matrix[x][y-2];
 			    this.matrix[x][y-2] = null;
+			    actionDone = true;
 			}
 			else if(y == 1){
 			    this.matrix[x][y] = this.matrix[x][y-1];
 			    this.matrix[x][y-1] = null;
+			    actionDone = true;
 			}
 		    }
 		}
@@ -235,20 +267,25 @@ public class Grille{
 		    this.matrix[x][y-1] = this.matrix[x][y-2];
 		    this.matrix[x][y-2] = this.matrix[x][y-3];
 		    this.matrix[x][y-3] = null;
+		    actionDone = true;
 		}
 		else if((y == 2) && (this.matrix[x][y-1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y-1].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x][y-1] = this.matrix[x][y-2];
 		    this.matrix[x][y-2] = null;
+		    actionDone = true;
 		}
 		else if((y == 1) &&  (this.matrix[x][y-1] != null) && (this.matrix[x][y].getNum() == this.matrix[x][y-1].getNum())){
 		    this.matrix[x][y].setNum(this.matrix[x][y].getNum()*2);
 		    this.matrix[x][y-1] = null;
+		    actionDone = true;
 		}
 	    }
 	}
-	Case case1 = this.randomGenerate();
-	matrix[case1.getX()][case1.getY()] = case1;
+	if(actionDone == true){
+	    Case case1 = this.randomGenerate();
+	    matrix[case1.getX()][case1.getY()] = case1;
+	}
     }
 
     public boolean gameLost(){
@@ -317,7 +354,6 @@ public class Grille{
 	    y = alea.nextInt(4);
 	}
 	while(this.matrix[x][y] != null);
-	System.out.println(x + "," + y);
 	return new Case(number, x, y);
     }
 
