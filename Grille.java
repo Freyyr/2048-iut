@@ -19,7 +19,7 @@ public class Grille{
 	//Lancement d'une partie
 	Scanner sc = new Scanner(System.in); 
 	System.out.println(this.toString());
-	while(! gameWin()){ //Tant que la partie n'est ni perdu ni gagné on demande au joueur de choisir une action
+	while(! gameWin() && ! gameLost()){ //Tant que la partie n'est ni perdu ni gagné on demande au joueur de choisir une action
 	    System.out.println("Appuyez sur z, q, s, d pour bouger la grille");
 	    char commande = sc.next().charAt(0); //Enregistre le premier char entré par le joueur
 	    if(commande == 'z'){
@@ -37,7 +37,6 @@ public class Grille{
 	    else System.out.println("Veuillez saisir une entrée valide !");
 	    System.out.println(this.toString());
 	}
-	
     }
 	
     public void moveLeft(){
