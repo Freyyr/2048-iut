@@ -256,16 +256,65 @@ public class Grille{
 	int nbCaseVide = 0;
 	for(int x = 0; x < 4; x++){ //Parcourt toutes les cases et compte les nombres de cases vide
 	    for(int y = 0; y < 4; y++){
-		if(this.matrix[x][y] == null) nbCaseVide++;
+		nbCaseVide++;
 	    }
 	}
 	if(nbCaseVide == 0){
-	    System.out.println("Vous avez perdu !"); //Si aucune des cases n'est vide alors perdu 
-	    return true;
+	    for(int x = 0; x < 4; x++){ //Parcourt toutes les cases et compte les nombres de cases vide
+		for(int y = 0; y < 4; y++){
+		    if(x == 0 && y == 0){
+			if(matrix[x][y].getNum() == matrix[x+1][y].getNum() || matrix[x][y].getNum() == matrix[x][y+1].getNum()){
+			    return false;
+			}
+		    }
+		    else if(x == 3 && y == 0){
+			if(matrix[x][y].getNum() == matrix[x-1][y].getNum() || matrix[x][y].getNum() == matrix[x][y+1].getNum()){
+			    return false;
+			}
+		    }
+		    else if(x == 0 && y == 3){
+			if(matrix[x][y].getNum() == matrix[x+1][y].getNum() || matrix[x][y].getNum() == matrix[x][y-1].getNum()){
+			    return false;
+			}
+		    }
+		    else if(x == 3 && y == 3){
+			if(matrix[x][y].getNum() == matrix[x-1][y].getNum() || matrix[x][y].getNum() == matrix[x][y-1].getNum()){
+			    return false;
+			}
+		    }
+		    else if(x == 0){
+			if(matrix[x][y].getNum() == matrix[x+1][y].getNum() || matrix[x][y].getNum() == matrix[x][y+1].getNum() || matrix[x][y].getNum() == matrix[x][y-1].getNum()){
+			    return false;
+			}
+		    }
+		    else if(x == 3){
+			if(matrix[x][y].getNum() == matrix[x-1][y].getNum() || matrix[x][y].getNum() == matrix[x][y+1].getNum() || matrix[x][y].getNum() == matrix[x][y-1].getNum()){
+			    return false;
+			}
+		    }
+		    else if(y == 0){
+			if(matrix[x][y].getNum() == matrix[x-1][y].getNum() || matrix[x][y].getNum() == matrix[x][y+1].getNum() || matrix[x][y].getNum() == matrix[x+1][y].getNum()){
+			    return false;
+			}
+		    }
+		    else if(y == 3){
+			if(matrix[x][y].getNum() == matrix[x+1][y].getNum() || matrix[x][y].getNum() == matrix[x][y-1].getNum() || matrix[x][y].getNum() == matrix[x-1][y].getNum()){
+			    return false;
+			}
+		    }
+		    else{
+			if(matrix[x][y].getNum() == matrix[x-1][y].getNum() || matrix[x][y].getNum() == matrix[x+1][y].getNum() || matrix[x][y].getNum() == matrix[x][y-1].getNum() || matrix[x][y].getNum() == matrix[x][y+1].getNum()){
+			    return false;
+			}
+		    }
+		}
+	    }
 	}
-	return false;
+	if(nbCaseVide > 0) return false;
+	System.out.println("Vous avez perdu !");
+	return true;
     }
-
+    
     public boolean gameWin(){
 	//Check si la partie est gagné return true si oui et false si non
 	for(int x = 0; x < 4; x++){ // Parcourt toutes les cases a la recherche d'une case de valeur 2048
