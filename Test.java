@@ -9,7 +9,6 @@ public class Test{
 	System.out.println("Tapez\n1 pour lancer une nouvelle partie\n2 pour quitter");
 	int choix;
 	do{
-	    System.out.println("BONJOUR");
 	    choix = sc.nextInt();
 	    if(choix == 1){
 		Grille jeu = new Grille();

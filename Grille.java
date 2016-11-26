@@ -53,7 +53,6 @@ public class Grille{
 		}
 		if(b == 1){ // Si il existe au moins encore une case non vide
 		    while(this.matrix[x][y] == null){ //alors tant que la case x est vide on deplace toutes les cases suivantes vers la gauche (dépend de la case x)
-			System.out.println("BONJOUR1");
 			if(x == 0){ 
 			    this.matrix[x][y] = this.matrix[x+1][y];
 			    this.matrix[x+1][y] = this.matrix[x+2][y];
@@ -116,7 +115,6 @@ public class Grille{
 		}
 		if(b == 1){
 		    while(this.matrix[x][y] == null){
-			System.out.println("BONJOUR2");
 			if(x == 3){
 			    this.matrix[x][y] = this.matrix[x-1][y];
 			    this.matrix[x-1][y] = this.matrix[x-2][y];
@@ -179,7 +177,6 @@ public class Grille{
 		}
 		if(b == 1){
 		    while(this.matrix[x][y] == null){
-			System.out.println("BONJOUR3");
 			if(y == 0){
 			    this.matrix[x][y] = this.matrix[x][y+1];
 			    this.matrix[x][y+1] = this.matrix[x][y+2];
