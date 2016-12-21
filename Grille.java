@@ -19,7 +19,7 @@ public class Grille{
 	Scanner sc = new Scanner(System.in); 
 	System.out.println(this.toString());
 	while(! gameWin() && ! gameLost()){ //Tant que la partie n'est ni perdu ni gagné on demande au joueur de choisir une action
-	    System.out.println("Appuyez sur z, q, s, d pour bouger la grille");
+	    System.out.println("Appuyez sur z, q, s, d pour bouger la grille ou l pour quitter.");
 	    char commande = sc.next().charAt(0); //Enregistre le premier char entré par le joueur
 	    if(commande == 'z'){
 		this.moveUp();
@@ -33,9 +33,13 @@ public class Grille{
 	    else if(commande == 'd'){
 		this.moveRight();
 	    }
+	    else if(commande == 'l'){
+		break;
+	    }
 	    else System.out.println("Veuillez saisir une entrée valide !");
 	    System.out.println(this.toString());
 	}
+	System.out.println("Retour au menu principal");
     }
 	
     public void moveLeft(){
