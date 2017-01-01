@@ -1,47 +1,116 @@
-import java.util.Random;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 
-public class Grille{
+
+public class Game extends JPanel{
 
     private Case[][] matrix = new Case[4][4];
+    private static Font stringFont = new Font("Arial", Font.PLAIN, 18);
+    private static int SIZE = 100;
+    private static JFrame game = new JFrame();
 
-    public Grille(){
-	//Constructeur de début de partie
-	//Création des deux cases obligatoires en début de partie
+
+    public static void main(String args[]){
+	game.setTitle("2048 Game");
+	game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	game.setSize(450, 450);
+	game.setResizable(false);
+
+	game.add(new Game());
+
+	game.setLocationRelativeTo(null);
+	game.setVisible(true);
+    }
+
+    
+    public Game(){
 	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
+	
 	Case case2 = this.randomGenerate();
 	matrix[case2.getX()][case2.getY()] = case2;
+	
+	setFocusable(true);
+	addKeyListener(new KeyAdapter(){
+		@Override
+		public void keyPressed(KeyEvent e){
+		    if(! gameLost() && !gameWin()){
+			switch(e.getKeyCode()){
+			case KeyEvent.VK_LEFT :
+			    moveLeft();
+			    break;
+			case KeyEvent.VK_RIGHT :
+			    moveRight();
+			    break;
+			case KeyEvent.VK_DOWN :
+			    moveDown();
+			    break;
+			case KeyEvent.VK_UP :
+			    moveUp();
+			    break;
+			}
+		    }
+		    repaint();
+		}
+	    });
+    }
+    
+    @Override
+    public void paint(Graphics g){
+	super.paint(g);
+	g.setColor(new Color(0xbbada0));
+	Graphics2D g3 = (Graphics2D)g;
+	g3.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	g3.fillRect(0, 0, 450, 450);
+	for(int y = 0; y < 4; y++){
+	    for(int x = 0; x < 4; x++){
+		if(matrix[x][y] != null){
+		    System.out.println(x + " , " + y + " , " +  matrix[x][y].getNum());
+		}
+		else {
+		    System.out.println (x + " , " + y + " , null");
+		}
+		draw(g, matrix[x][y], x, y);
+	    }
+	}
     }
 
-    public void partie(){
-	//Lancement d'une partie
-	Scanner sc = new Scanner(System.in); 
-	System.out.println(this.toString());
-	while(! gameWin() && ! gameLost()){ //Tant que la partie n'est ni perdu ni gagné on demande au joueur de choisir une action
-	    System.out.println("Appuyez sur z, q, s, d pour bouger la grille ou l pour quitter.");
-	    char commande = sc.next().charAt(0); //Enregistre le premier char entré par le joueur
-	    if(commande == 'z'){
-		this.moveUp();
+    public void draw(Graphics g2, Case case1, int x, int y){
+	if(case1 != null){
+	    Graphics2D g = ((Graphics2D) g2);
+	    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    g.setColor(case1.getColor());
+	    g.fillRoundRect(case1.getX()*SIZE+10+case1.getX()*10, case1.getY()*SIZE+10+case1.getY()*10, SIZE, SIZE, 10, 10);
+
+	    
+	    g.setColor(Color.BLACK);
+	    String value = Integer.toString(case1.getNum());
+	    g.setFont(stringFont);
+	    if(case1.getNum() < 10){
+		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +45 ,  case1.getY()*SIZE+10+case1.getY()*10 + 55);
 	    }
-	    else if(commande == 'q'){
-		this.moveLeft();
+	    else if(case1.getNum() < 100){
+		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +44,  case1.getY()*SIZE+10+case1.getY()*10+ 55);
 	    }
-	    else if(commande == 's'){
-		this.moveDown();
+	    else if(case1.getNum() < 1000){
+		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +43,  case1.getY()*SIZE+10+case1.getY()*10 + 55);
 	    }
-	    else if(commande == 'd'){
-		this.moveRight();
+	    else{
+		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +42,  case1.getY()*SIZE+10+case1.getY()*10 + 55);
 	    }
-	    else if(commande == 'l'){
-		break;
-	    }
-	    else System.out.println("Veuillez saisir une entrée valide !");
-	    System.out.println(this.toString());
+
 	}
-	System.out.println("Retour au menu principal");
+	else {
+	    Graphics2D g = (Graphics2D)g2;
+	    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	    g.setColor(Color.GRAY);
+	    g.fillRoundRect(x*SIZE+10+x*10, y*SIZE+10+y*10, SIZE, SIZE, 10, 10);
+	}
+
     }
-	
+    	
     public void moveLeft(){
 	//L'objectif est de deplacer les cases des chacunes des lignes vers la gauche et de
 	//les fusionner si leurs valeurs est la meme
@@ -52,7 +121,7 @@ public class Grille{
 		b = 0;
 		for(a = x ; a < 4; a++){
 		    if(this.matrix[a][y] != null) { //On verifie qu'apres la case x(avance au fur et a mesure) il existe bien encore au moins une case non vide
- 			b = 1;
+			b = 1;
 		    }
 		}
 		if(b == 1){ // Si il existe au moins encore une case non vide
@@ -367,32 +436,6 @@ public class Grille{
 	return false;
     }
     
-    public String toString(){
-	//Affichage console de la matrice
-	StringBuilder affichage = new StringBuilder();
-	for(int y = 0; y < 4; y++){
-	    for(int i = 0; i < 17; i++) affichage.append("-");
-	    affichage.append("\n");
-	    for(int x = 0; x < 4; x++){
-		if(this.matrix[x][y] == null && x == 3){
-		    affichage.append("|   | ");
-		}
-		else if(this.matrix[x][y] == null){
-		    affichage.append("|   ");
-		    }
-		else if(x == 3){
-		    affichage.append("| " + this.matrix[x][y].getNum() + " | ");
-		}
-		else{
-		    affichage.append("|  " + this.matrix[x][y].getNum());
-		}
-	    }
-	    affichage.append("\n");    
-	}
-	for(int i = 0; i < 17; i++) affichage.append("-");
-	return affichage.toString();
-    }
-
     public Case randomGenerate(){
 	//Crée case 2 ou 4 aléatoirement
 	int number, x, y;
@@ -408,14 +451,4 @@ public class Grille{
 	return new Case(number, x, y);
     }
 
-    public int nbCasePleine(){
-	//Compte le nombre de case pleine
-	int x, y, nbCase = 0;
-	for(y = 0; y < 4; y++){
-	    for(x = 0; x < 4; x++){
-		if(this.matrix[x][y] != null) nbCase++;
-	    }
-	}
-	return nbCase;
-    }
 }
