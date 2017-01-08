@@ -10,28 +10,9 @@ public class Game extends JPanel{
     private static Font stringFont = new Font("Arial", Font.PLAIN, 18);
     private static int SIZE = 100;
     private static JFrame game = new JFrame();
-
-
-    public static void main(String args[]){
-	game.setTitle("2048 Game");
-	game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	game.setSize(450, 450);
-	game.setResizable(false);
-
-	game.add(new Game());
-
-	game.setLocationRelativeTo(null);
-	game.setVisible(true);
-    }
-
+    private static final int MARGE = 10;
     
     public Game(){
-	Case case1 = this.randomGenerate();
-	matrix[case1.getX()][case1.getY()] = case1;
-	
-	Case case2 = this.randomGenerate();
-	matrix[case2.getX()][case2.getY()] = case2;
-	
 	setFocusable(true);
 	addKeyListener(new KeyAdapter(){
 		@Override
@@ -55,60 +36,62 @@ public class Game extends JPanel{
 		    repaint();
 		}
 	    });
+	restart();
+    }
+
+M	matrix = new Case[4][4];
+	
+	Case case1 = this.randomGenerate();
+	matrix[case1.getX()][case1.getY()] = case1;
+	
+	Case case2 = this.randomGenerate();
+	matrix[case2.getX()][case2.getY()] = case2;
     }
     
     @Override
     public void paint(Graphics g){
 	super.paint(g);
 	g.setColor(new Color(0xbbada0));
-	Graphics2D g3 = (Graphics2D)g;
-	g3.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	g3.fillRect(0, 0, 450, 450);
+	g.fillRect(0, 0, 450, 450);
 	for(int y = 0; y < 4; y++){
 	    for(int x = 0; x < 4; x++){
-		if(matrix[x][y] != null){
-		    System.out.println(x + " , " + y + " , " +  matrix[x][y].getNum());
-		}
-		else {
-		    System.out.println (x + " , " + y + " , null");
-		}
 		draw(g, matrix[x][y], x, y);
 	    }
 	}
     }
 
     public void draw(Graphics g2, Case case1, int x, int y){
+	Graphics2D g = ((Graphics2D) g2);
 	if(case1 != null){
-	    Graphics2D g = ((Graphics2D) g2);
 	    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	    g.setColor(case1.getColor());
-	    g.fillRoundRect(case1.getX()*SIZE+10+case1.getX()*10, case1.getY()*SIZE+10+case1.getY()*10, SIZE, SIZE, 10, 10);
-
-	    
-	    g.setColor(Color.BLACK);
+	    g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
+	    int num = case1.getNum();
 	    String value = Integer.toString(case1.getNum());
+
+	    //print case
+	    g.setColor(getColor(case1));
+	    g.fillRoundRect(x*SIZE+MARGE+x*MARGE, y*SIZE+MARGE+y*MARGE, SIZE, SIZE, MARGE, MARGE);
+
+	    //print int de la case
+	    g.setColor(Color.BLACK);
 	    g.setFont(stringFont);
-	    if(case1.getNum() < 10){
-		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +45 ,  case1.getY()*SIZE+10+case1.getY()*10 + 55);
+	    if(num < 10){
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 45 , y*SIZE+MARGE+y*MARGE + 55);
 	    }
-	    else if(case1.getNum() < 100){
-		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +44,  case1.getY()*SIZE+10+case1.getY()*10+ 55);
+	    else if(num < 100){
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 36 , y*SIZE+MARGE+y*MARGE + 55);
 	    }
-	    else if(case1.getNum() < 1000){
-		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +43,  case1.getY()*SIZE+10+case1.getY()*10 + 55);
+	    else if(num < 1000){
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 32 , y*SIZE+MARGE+y*MARGE + 55);
 	    }
 	    else{
-		g.drawString(value, case1.getX()*SIZE+10+case1.getX()*10 +42,  case1.getY()*SIZE+10+case1.getY()*10 + 55);
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 24 , y*SIZE+MARGE+y*MARGE + 55);
 	    }
-
 	}
-	else {
-	    Graphics2D g = (Graphics2D)g2;
-	    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+	else{
 	    g.setColor(Color.GRAY);
-	    g.fillRoundRect(x*SIZE+10+x*10, y*SIZE+10+y*10, SIZE, SIZE, 10, 10);
+	    g.fillRoundRect(x*SIZE+MARGE+MARGE*x, y*SIZE+MARGE+MARGE*y, SIZE, SIZE, MARGE, MARGE);
 	}
-
     }
     	
     public void moveLeft(){
@@ -451,4 +434,16 @@ public class Game extends JPanel{
 	return new Case(number, x, y);
     }
 
+    
+    public static void main(String args[]){
+	game.setTitle("2048 Game");
+	game.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	game.setSize(450, 450);
+	game.setResizable(false);
+
+	game.add(new Game());
+
+	game.setLocationRelativeTo(null);
+	game.setVisible(true);
+    }
 }
