@@ -39,7 +39,8 @@ public class Game extends JPanel{
 	restart();
     }
 
-M	matrix = new Case[4][4];
+    public void restart(){
+	matrix = new Case[4][4];
 	
 	Case case1 = this.randomGenerate();
 	matrix[case1.getX()][case1.getY()] = case1;
@@ -69,7 +70,7 @@ M	matrix = new Case[4][4];
 	    String value = Integer.toString(case1.getNum());
 
 	    //print case
-	    g.setColor(getColor(case1));
+	    g.setColor(case1.getColor());
 	    g.fillRoundRect(x*SIZE+MARGE+x*MARGE, y*SIZE+MARGE+y*MARGE, SIZE, SIZE, MARGE, MARGE);
 
 	    //print int de la case
