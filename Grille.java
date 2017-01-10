@@ -407,15 +407,4 @@ public class Grille{
 	while(this.matrix[x][y] != null);
 	return new Case(number, x, y);
     }
-
-    public int nbCasePleine(){
-	//Compte le nombre de case pleine
-	int x, y, nbCase = 0;
-	for(y = 0; y < 4; y++){
-	    for(x = 0; x < 4; x++){
-		if(this.matrix[x][y] != null) nbCase++;
-	    }
-	}
-	return nbCase;
-    }
 }
