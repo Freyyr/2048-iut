@@ -12,7 +12,7 @@ public class Game extends JPanel{
     private static JFrame game = new JFrame();
     private static final int MARGE = 10;
     private static final int width = 500;
-    private static final int height = 550;
+    private static final int height = 525;
     
     public Game(){
 	setFocusable(true);
@@ -108,13 +108,13 @@ public class Game extends JPanel{
 	    g.setColor(Color.WHITE);
 	    g.setFont(new Font("Arial", Font.BOLD, 25));
 	    if(gameWin()){
-		g.drawString("Vous avez gagné !", SIZE, height/2);
+		g.drawString("Vous avez gagné !", SIZE + 25, height/2);
 	    }
 	    else if(gameLost()){
-		g.drawString("Vous avez perdu !", SIZE, height/2);
+		g.drawString("Vous avez perdu !", SIZE + 25, height/2);
 	    }
 	    g.setFont(new Font("Arial", Font.BOLD, 15));
-	    g.drawString("Appuyez la touche entrer pour relancer", SIZE- 3*MARGE + MARGE/4, height/2 + MARGE*2);
+	    g.drawString("Appuyez la touche entrer pour relancer", SIZE- 3*MARGE + MARGE/4 +25, height/2 + MARGE*2);
 	}
     }
 
