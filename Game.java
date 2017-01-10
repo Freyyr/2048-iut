@@ -11,7 +11,7 @@ public class Game extends JPanel{
     private static int SIZE = 100;
     private static JFrame game = new JFrame();
     private static final int MARGE = 10;
-    private static final int width = 450;
+    private static final int width = 500;
     private static final int height = 550;
     
     public Game(){
@@ -61,7 +61,7 @@ public class Game extends JPanel{
 	g.fillRect(0, 0, width, height);
 	g.setColor(Color.BLACK);
 	g.setFont(new Font("Arial", Font.BOLD, 20));
-	g.drawString("Appuyez sur Entrer pour relancer", SIZE/2 - MARGE, 80);
+	g.drawString("Appuyez sur Entrer pour relancer", SIZE/2 - MARGE +25, 30);
 	for(int y = 0; y < 4; y++){
 	    for(int x = 0; x < 4; x++){
 		draw(g, matrix[x][y], x, y);
@@ -80,27 +80,27 @@ public class Game extends JPanel{
 
 	    //print case
 	    g.setColor(getColor(case1.getNum()));
-	    g.fillRoundRect(x*SIZE+MARGE+x*MARGE, y*SIZE+MARGE+y*MARGE +100, SIZE, SIZE, MARGE, MARGE);
+	    g.fillRoundRect(x*SIZE+MARGE+x*MARGE +25, y*SIZE+MARGE+y*MARGE +50, SIZE, SIZE, MARGE, MARGE);
 
 	    //print int de la case
 	    g.setColor(Color.BLACK);
 	    g.setFont(stringFont);
 	    if(num < 10){
-		g.drawString(value, x*SIZE+MARGE+x*MARGE + 45 , y*SIZE+MARGE+y*MARGE + 155);
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 70 , y*SIZE+MARGE+y*MARGE + 105);
 	    }
 	    else if(num < 100){
-		g.drawString(value, x*SIZE+MARGE+x*MARGE + 38 , y*SIZE+MARGE+y*MARGE + 155);
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 63 , y*SIZE+MARGE+y*MARGE + 105);
 	    }
 	    else if(num < 1000){
-		g.drawString(value, x*SIZE+MARGE+x*MARGE + 31 , y*SIZE+MARGE+y*MARGE + 155);
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 56 , y*SIZE+MARGE+y*MARGE + 105);
 	    }
 	    else{
-		g.drawString(value, x*SIZE+MARGE+x*MARGE + 24 , y*SIZE+MARGE+y*MARGE + 155);
+		g.drawString(value, x*SIZE+MARGE+x*MARGE + 49 , y*SIZE+MARGE+y*MARGE + 105);
 	    }
 	}
 	else{
 	    g.setColor(Color.GRAY);
-	    g.fillRoundRect(x*SIZE+MARGE+MARGE*x, y*SIZE+MARGE+MARGE*y+100, SIZE, SIZE, MARGE, MARGE);
+	    g.fillRoundRect(x*SIZE+MARGE+MARGE*x+ 25, y*SIZE+MARGE+MARGE*y+50, SIZE, SIZE, MARGE, MARGE);
 	}
 	if(gameWin() || gameLost()){
 	    g.setColor(new Color(10, 10, 10, 30));
