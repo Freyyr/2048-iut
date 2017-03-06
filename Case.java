@@ -1,25 +1,22 @@
-public class Case{
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import javax.swing.*;
 
-    private int num;
+public class Case {
+
+    private int value;
     private int x;
     private int y;
 
     public Case(){
-	//Constructeur vide
     }
 
-    public Case(int number, int x, int y){
-	this.num = number;
+    public Case(int value, int x, int y){
+	this.value = value;
 	this.x = x;
 	this.y = y;
-    }
-
-    public int getNum(){
-	return this.num;
-    }
-
-    public void setNum(int number){
-	this.num = number;
     }
 
     public int getX(){
@@ -28,5 +25,13 @@ public class Case{
 
     public int getY(){
 	return this.y;
+    }
+
+    public int getNum(){
+	return this.value;
+    }
+
+    public void setNum(int num){
+	this.value = num;
     }
 }
