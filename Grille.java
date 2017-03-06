@@ -36,7 +36,6 @@ public class Grille{
 	    else System.out.println("Veuillez saisir une entrée valide !");
 	    System.out.println(this.toString());
 	}
-	
     }
 	
     public void moveLeft(){
@@ -292,7 +291,7 @@ public class Grille{
 	number = alea.nextInt(2); //Genere le nombre de la case (0=2 et 1=4)
 	if(number == 0) number = 2;
 	else if(number == 1) number = 4;
-	int posInMatrix = alea.nextInt(16-this.nbCasePleine()); //16 case(0 a 15)- nbCase dans matrice = position dans matrice
+	int posInMatrix = 1+alea.nextInt(16-this.nbCasePleine()); //16 case(0 a 15)- nbCase dans matrice = position dans matrice
 	while(i < posInMatrix){
 	    if(matrix[x][y] == null){
 		i++;
