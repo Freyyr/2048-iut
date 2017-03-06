@@ -44,6 +44,10 @@ public class Game extends JPanel{
 	restart();
     }
 
+    public void HelloWorld(){
+	System.out.println("Salut tout le monde");
+    }
+
     public void restart(){
 	matrix = new Case[4][4];
 	
