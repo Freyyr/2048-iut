@@ -44,10 +44,6 @@ public class Game extends JPanel{
 	restart();
     }
 
-    public void HelloWorld(){
-	System.out.println("Salut tout le monde");
-    }
-
     public void restart(){
 	matrix = new Case[4][4];
 	
@@ -72,10 +68,6 @@ public class Game extends JPanel{
 	    }
 	}
     }
-
-	public void HelloWorld() {
-		System.out.println("Bonjour tout le monde !");
-	}
 
     public void draw(Graphics g2, Case case1, int x, int y){
 	Graphics2D g = ((Graphics2D) g2);
